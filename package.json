@@ -11,16 +11,27 @@
     "develop": "gatsby develop",
     "start": "gatsby develop",
     "build": "gatsby build",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "ggl-types:watch": "graphql-codegen --config codegen.yml -w"
   },
   "license": "0BSD",
   "dependencies": {
+    "@apollo/client": "^3.2.5",
+    "@material-ui/core": "^4.11.0",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
+    "formik": "^2.2.1",
     "gatsby": "^2.24.91",
     "gatsby-plugin-typescript": "^2.4.25",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "typescript": "^4.0.5"
+    "graphql": "^15.4.0",
+    "moment": "^2.29.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "typescript": "^4.0.5",
+    "yup": "^0.29.3"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.19.0"
   }
 }

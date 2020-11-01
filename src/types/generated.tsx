@@ -63,6 +63,7 @@ export type BookmarkListQuery = { __typename?: "Query" } & {
 export const BookmarkListDocument = gql`
   query bookmarkList {
     bookmarks {
+      id
       description
       title
       createdAt

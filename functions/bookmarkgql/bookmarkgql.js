@@ -3,6 +3,8 @@ const faunadb = require("faunadb"),
   q = faunadb.query;
 const dayjs = require("dayjs");
 
+require("dotenv").config();
+
 const typeDefs = gql`
   type Query {
     bookmarks: [Bookmark]
@@ -21,7 +23,7 @@ const typeDefs = gql`
 `;
 
 var adminClient = new faunadb.Client({
-  secret: "fnAD5ewep5ACBwusq138HQJPvj_5PMi1QZhmNMwJ",
+  secret: process.env.ADMIN_SECRET,
 });
 //genrating date of now
 const now = dayjs().format();

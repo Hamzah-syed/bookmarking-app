@@ -1,14 +1,7 @@
 import React from "react";
 import AddBookmark from "./addBookmark";
-import {
-  makeStyles,
-  Grid,
-  Hidden,
-  Box,
-  Typography,
-  Button,
-  capitalize,
-} from "@material-ui/core";
+import { makeStyles, Grid, Hidden, Box, Typography } from "@material-ui/core";
+import { bookmarkType } from "../types/bookmarkType";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -25,7 +18,17 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const BoomarkLandingSection = () => {
+interface props {
+  bookmarksList: bookmarkType[] | undefined;
+  setBookmarkList: React.Dispatch<
+    React.SetStateAction<bookmarkType[] | undefined>
+  >;
+}
+
+const BoomarkLandingSection: React.FC<props> = ({
+  setBookmarkList,
+  bookmarksList,
+}) => {
   const classes = useStyle();
   return (
     <div className={classes.root}>
@@ -51,7 +54,10 @@ const BoomarkLandingSection = () => {
               </Grid>
             </Hidden>
             <Grid item sm={6} xs={12} container justify="center">
-              <AddBookmark />
+              <AddBookmark
+                setBookmarkList={setBookmarkList}
+                bookmarksList={bookmarksList}
+              />
             </Grid>
           </Grid>
         </Box>

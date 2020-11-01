@@ -13,6 +13,7 @@ import {
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "../utlils/errorMsg";
+import { bookmarkType } from "../types/bookmarkType";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -46,11 +47,18 @@ const validationSchema = Yup.object({
   description: Yup.string().required("Description is Required"),
 });
 
-const AddBookmark = () => {
+interface props {
+  bookmarksList: bookmarkType[] | undefined;
+  setBookmarkList: React.Dispatch<
+    React.SetStateAction<bookmarkType[] | undefined>
+  >;
+}
+
+const AddBookmark: React.FC<props> = ({ setBookmarkList, bookmarksList }) => {
   const classes = useStyle();
   const [add_bookmark] = useMutation(ADD_BOOKMARK);
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, actions) => {
     add_bookmark({
       variables: {
         title: values.title,
@@ -59,7 +67,16 @@ const AddBookmark = () => {
       },
       refetchQueries: [{ query: bookmarkList }],
     });
+    setBookmarkList(undefined);
+    actions.resetForm({
+      values: {
+        title: "",
+        url: "",
+        description: "",
+      },
+    });
   };
+
   return (
     <div style={{ width: "100%" }}>
       <div className={classes.root}>

@@ -32,15 +32,25 @@ const BoomarkLandingSection = () => {
       <div className={`Maincontainer`}>
         <Box py={10}>
           <Grid container spacing={2}>
-            <Grid item md={6}>
-              <Typography className={classes.title}>
-                Bookmarking Application
-              </Typography>
-              <Typography className={classes.desc}>
-                This App will let you save your bookmarks here for free
-              </Typography>
-            </Grid>
-            <Grid item md={6} xs={12} container justify="center">
+            <Hidden xsDown>
+              <Grid
+                item
+                container
+                justify="flex-end"
+                alignContent="center"
+                sm={6}
+              >
+                <div>
+                  <Typography className={classes.title}>
+                    Bookmarking Application
+                  </Typography>
+                  <Typography className={classes.desc}>
+                    This App will let you save your bookmarks here for free
+                  </Typography>
+                </div>
+              </Grid>
+            </Hidden>
+            <Grid item sm={6} xs={12} container justify="center">
               <AddBookmark />
             </Grid>
           </Grid>

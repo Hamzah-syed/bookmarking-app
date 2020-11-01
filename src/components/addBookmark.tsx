@@ -9,84 +9,116 @@ import {
 } from "@material-ui/core";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import ErrorMsg from "../utlils/errorMsg";
 
 const useStyle = makeStyles((theme) => ({
   root: {
     background: "white",
-    padding: "10px 20px",
     width: "100%",
     maxWidth: "350px",
     borderRadius: "5px",
+    margin: "0 auto",
+  },
+  formTitle: {
+    fontSize: "20px",
+    fontWeight: 550,
   },
 }));
 
 const initialValues = {
-  email: "",
-  password: "",
+  title: "",
+  url: "",
+  description: "",
 };
 const onSubmit = (values) => {
   console.log(values);
 };
 
 const validationSchema = Yup.object({
-  email: Yup.string().email("Incorrect Email").required("Email is required"),
+  title: Yup.string().required("Title is required"),
 
-  password: Yup.string().required("Password is required"),
+  url: Yup.string()
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      "Enter correct url!"
+    )
+    .required("Website url is required"),
+  description: Yup.string().required("Description is Required"),
 });
 const AddBookmark = () => {
   const classes = useStyle();
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <div className={classes.root}>
-        <Typography>Home</Typography>
-        <Box pb={1}>
-          <TextField
-            variant="outlined"
-            color="secondary"
-            size="small"
-            fullWidth
-          />
-        </Box>
-        <Box pb={1}>
-          <TextField variant="outlined" size="small" fullWidth />
-          <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            validationSchema={validationSchema}
-          >
-            <Form className="lg:w-2/6 md:w-1/2 bg-gray-800 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-              <h2 className="text-white text-lg font-medium title-font mb-5">
-                Login
-              </h2>
-              <div className="mb-4">
-                <Field
-                  as={TextField}
-                  color="secondary"
-                  className="bg-gray-900 rounded border text-white border-gray-900 focus:outline-none focus:border-indigo-500 text-base w-full px-4 py-2 "
-                  name="email"
-                  placeholder="Email"
-                  type="text"
-                />
-                <ErrorMessage name="email" />
-              </div>
-              <div className="mb-4">
-                <Field
-                  //   as={<TextField />}
-                  className="bg-gray-900 rounded border text-white border-gray-900 focus:outline-none focus:border-indigo-500 w-full text-base px-4 py-2 "
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                />
-                <ErrorMessage name="password" component={"ErrorMsg"} />
-              </div>
-              <button
-                type="submit"
-                className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-              >
-                Submit
-              </button>
-            </Form>
-          </Formik>
+        <Box p={3}>
+          <Box pb={1}>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={onSubmit}
+              validationSchema={validationSchema}
+            >
+              <Form>
+                <Box pb={2}>
+                  <Typography
+                    color="secondary"
+                    className={` ${classes.formTitle}`}
+                  >
+                    Add Bookmark
+                  </Typography>
+                </Box>
+                <Box style={{ paddingBottom: "12px" }}>
+                  <div>
+                    <Field
+                      as={TextField}
+                      color="secondary"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      name="title"
+                      type="text"
+                      label="Title"
+                    />
+                    {}
+                    <ErrorMessage name="title" component={ErrorMsg} />
+                  </div>
+                </Box>
+                <Box style={{ paddingBottom: "12px" }}>
+                  <div>
+                    <Field
+                      as={TextField}
+                      color="secondary"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      name="url"
+                      type="text"
+                      label="Url"
+                    />
+                    <ErrorMessage name="url" component={ErrorMsg} />
+                  </div>
+                </Box>
+                <Box style={{ paddingBottom: "12px" }}>
+                  <div>
+                    <Field
+                      as={TextField}
+                      color="secondary"
+                      multiline
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      name="description"
+                      label="Description"
+                      rows={3}
+                    />
+                    <ErrorMessage name="description" component={ErrorMsg} />
+                  </div>
+                </Box>
+                <Button variant="contained" color="secondary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Formik>
+          </Box>
         </Box>
       </div>
     </div>

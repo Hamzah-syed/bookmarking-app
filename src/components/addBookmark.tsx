@@ -1,4 +1,7 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_BOOKMARK } from "../queries/addBookmark";
+import { bookmarkList } from "../queries/bookmarkList";
 import {
   makeStyles,
   Box,
@@ -30,23 +33,33 @@ const initialValues = {
   url: "",
   description: "",
 };
-const onSubmit = (values) => {
-  console.log(values);
-};
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
 
   url: Yup.string()
     .matches(
-      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/,
       "Enter correct url!"
     )
     .required("Website url is required"),
   description: Yup.string().required("Description is Required"),
 });
+
 const AddBookmark = () => {
   const classes = useStyle();
+  const [add_bookmark] = useMutation(ADD_BOOKMARK);
+
+  const onSubmit = (values) => {
+    add_bookmark({
+      variables: {
+        title: values.title,
+        description: values.description,
+        url: values.url,
+      },
+      refetchQueries: [{ query: bookmarkList }],
+    });
+  };
   return (
     <div style={{ width: "100%" }}>
       <div className={classes.root}>

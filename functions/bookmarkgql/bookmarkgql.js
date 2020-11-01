@@ -1,6 +1,7 @@
 const { gql, ApolloServer } = require("apollo-server-lambda");
 const faunadb = require("faunadb"),
   q = faunadb.query;
+const dayjs = require("dayjs");
 
 const typeDefs = gql`
   type Query {
@@ -8,6 +9,7 @@ const typeDefs = gql`
   }
   type Mutation {
     add_bookmark(title: String!, description: String!, url: String!): Bookmark
+    delete_bookmark(id: ID!): Bookmark
   }
   type Bookmark {
     id: ID!
@@ -18,13 +20,15 @@ const typeDefs = gql`
   }
 `;
 
+var adminClient = new faunadb.Client({
+  secret: "fnAD5ewep5ACBwusq138HQJPvj_5PMi1QZhmNMwJ",
+});
+//genrating date of now
+const now = dayjs().format();
 const resolvers = {
   Query: {
     bookmarks: async (root, args, context) => {
       try {
-        var adminClient = new faunadb.Client({
-          secret: "fnAD5ewep5ACBwusq138HQJPvj_5PMi1QZhmNMwJ",
-        });
         const result = await adminClient.query(
           q.Map(
             q.Paginate(q.Match(q.Index("all_bookmarks"))),
@@ -44,6 +48,38 @@ const resolvers = {
       } catch (err) {
         console.log(err);
         return err.toString();
+      }
+    },
+  },
+  Mutation: {
+    add_bookmark: async (_, { title, description, url }) => {
+      try {
+        const result = await adminClient.query(
+          q.Create(q.Collection("bookmarks"), {
+            data: {
+              title,
+              description,
+              url,
+              createdAt: now,
+            },
+          })
+        );
+
+        return result.data;
+      } catch (error) {
+        return error.toString();
+      }
+    },
+    delete_bookmark: async (_, { id }) => {
+      try {
+        const result = await adminClient.query(
+          q.Delete(q.Ref(q.Collection("bookmarks"), id))
+        );
+
+        console.log(result);
+        return result.data;
+      } catch (error) {
+        return error.toString();
       }
     },
   },

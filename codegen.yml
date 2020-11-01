@@ -1,22 +1,12 @@
 overwrite: true
 schema: "http://localhost:8888/.netlify/functions/bookmarkgql"
-documents:
-  [
-    "./src/**/*.tsx",
-    "./src/**/*.ts",
-    "./gatsby/**/*.ts",
-    "./node_modules/gatsby-transformer-sharp/src/*.js",
-    "./node_modules/gatsby-image/src/*.js",
-  ]
+documents: "src/**/*.{ts,tsx}"
 generates:
-  src/types/generated.tsx:
+  src/generated/graphql.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
-  ./schema.json:
+  ./graphql.schema.json:
     plugins:
       - "introspection"
-hooks:
-  afterOneFileWrite:
-    - prettier --write

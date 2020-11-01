@@ -20,6 +20,8 @@
     "faunadb": "^3.0.1",
     "graphql": "^14.2.1",
     "graphql-tools": "^4.0.8",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "dayjs": "^1.9.4",
+    "dotenv": "^8.2.0"
   }
 }

@@ -27,6 +27,7 @@
     "dotenv": "^8.2.0",
     "formik": "^2.2.1",
     "gatsby": "^2.24.91",
+    "gatsby-plugin-material-ui": "^2.1.10",
     "gatsby-plugin-typescript": "^2.4.25",
     "graphql": "^15.3.0",
     "moment": "^2.29.1",
